@@ -1,7 +1,7 @@
 const Hotel = require('../models/Hotel');
+const FoodItem = require('../models/FoodItem')
 const asyncHandler = require('../middleware/asyncHandler');
 const errorHandler = require('../utils/ErrorResponse');
-const bcrypt = require('bcrypt');
 
 /* Add a new Hotel*/
 exports.addHotel = asyncHandler(async (req, res, next) => {
@@ -31,7 +31,7 @@ exports.addHotel = asyncHandler(async (req, res, next) => {
     }
 });
 
-/* get all hotels details Controller */
+/* get all hotels details */
 exports.getHotels = asyncHandler(async (req, res, next) => {
 
     try {
@@ -81,7 +81,9 @@ exports.updateHotelDetails = asyncHandler(async (req, res) => {
             next(new errorHandler(`Not authorized to perform this action`, 401));
         }
 
-        const updationRes = await Hotel.findByIdAndUpdate(hotelId, req.body);
+        const updationRes = await Hotel.findByIdAndUpdate(hotelId, req.body, {
+            new: true
+        });
         res.status(200).json(updationRes);
 
     } catch (error) {
@@ -89,7 +91,7 @@ exports.updateHotelDetails = asyncHandler(async (req, res) => {
     }
 });
 
-// delete the hotel 
+// delete the hotel details
 exports.deleteHotelDetails = asyncHandler(async (req, res) => {
     const hotelId = req.params.id;
 
@@ -114,6 +116,22 @@ exports.deleteHotelDetails = asyncHandler(async (req, res) => {
 
         const deletionRes = await Hotel.findByIdAndDelete(hotelId);
         res.status(200).json({ msg: "Deletion Successfull", deletionRes });
+    } catch (error) {
+        res.status(500).json({ error });
+    }
+});
+
+/* get the food details of the hotel */
+exports.getHotelFoodItems = asyncHandler(async (req, res) => {
+    const hotelId = req.params.id;
+
+    if (!hotelId) {
+        return next(new errorHandler('Please provide HotelId to find the details of the respective hotel', 400));
+    }
+    try {
+
+        const fooditems = await FoodItem.find({ hotelId: hotelId });
+        res.status(200).json({ items: fooditems });
     } catch (error) {
         res.status(500).json({ error });
     }

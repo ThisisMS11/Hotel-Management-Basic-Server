@@ -45,6 +45,7 @@ exports.login = asyncHandler(async (req, res, next) => {
         return next(new errorHandler('Invalid Input', 404));
     }
 
+    /* sending back token response */
     sendTokenResponse(user, 200, res);
 });
 

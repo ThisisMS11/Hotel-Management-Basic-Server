@@ -28,7 +28,6 @@ const UserSchema = new mongoose.Schema({
         default: Date.now
     }
 })
-/*In Mongoose, schema.methods is a property that allows you to add instance methods to your Mongoose models. Instance methods are methods that are available on individual documents retrieved from the database */
 
 /*to check whether user input password matches with that of database one or not. */
 UserSchema.methods.matchpassword = async function (password) {
@@ -36,7 +35,9 @@ UserSchema.methods.matchpassword = async function (password) {
     return result;
 }
 
+/* to issue the jwt token */
 UserSchema.methods.getJwtToken = function () {
+    /* signing with the account id and password hash */
     return jwt.sign({ id: this._id, password: this.password }, process.env.JWT_SECRET);
 }
 

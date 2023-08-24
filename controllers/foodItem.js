@@ -77,8 +77,6 @@ exports.updateFoodItem = asyncHandler(async (req, res) => {
         const hotel = await Hotel.findById(food.hotelId);
 
         /*verifying authorisation */
-        // console.log(req.user.id);
-        // console.log(hotel.user.toString());
 
         if (hotel.user.toString() !== req.user.id) {
             next(new errorHandler(`Not authorized to perform this action`, 401));
