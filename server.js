@@ -10,6 +10,7 @@ const connectDB = require('./connectToDB');
 /* routes */
 const user = require('./routes/user');
 const hotel = require('./routes/hotel');
+const foodItem = require('./routes/fooditem')
 
 connectDB();
 
@@ -19,6 +20,7 @@ app.use(cors());
 /* routes */
 app.use('/api/v1/user', user);
 app.use('/api/v1/hotel', hotel);
+app.use('/api/v1/fooditem', foodItem);
 
 
 app.listen(PORT, () => {

@@ -23,13 +23,6 @@ const HotelSchema = new mongoose.Schema({
         type: Number,
         required: true
     },
-    foodItems: [{
-        foodItemId: {
-            type: mongoose.Schema.ObjectId,
-            ref: 'FoodItems'
-        }
-    }],
-
     registeredOn: {
         type: Date,
         default: Date.now
